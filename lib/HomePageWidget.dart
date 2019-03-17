@@ -72,64 +72,95 @@ class _HomePageWidgetState extends State<HomePageWidget> with WidgetsBindingObse
 
           ),
           preferredSize: Size(0, 0)),
-      body: PageView.builder(
-        onPageChanged: _pageChange,
-        controller: _pageController,
-        itemBuilder: (BuildContext context, int index) {
-          return new Column(mainAxisAlignment: MainAxisAlignment.start,
+      body: Column(children: <Widget>[
+        new SizedBox(height: 50,
+          child: Row(mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new SizedBox(height: 50,
-                   child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                       children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                _onTabClick(0);
-                              },
-                              child:  Text("推荐", style: new TextStyle(
-                                  color: const Color(0xff3072f6),
-                                  fontSize: 18.0,
-                                  decoration: TextDecoration.underline,
-                                  decorationStyle: TextDecorationStyle.solid
-                              )),
-                            )
-                           ,
-                            SizedBox(width: 16.0,),
-                            GestureDetector(
-                              onTap: () {
-                              _onTabClick(1);
-                              },
-                              child:  Text("北京", style: new TextStyle(
-                              color: const Color(0xff222222),
-                              fontSize: 18.0
-                            ),)),
-                            SizedBox(width: 16.0,),
-                            GestureDetector(
-                                onTap: () {
-                                _onTabClick(2);
-                              },
-                                child:
-                                Text("行情", style: new TextStyle(
-                                    color: const Color(0xff222222),
-                                    fontSize: 18.0
-                             ),)),
-                            SizedBox(width: 16.0,),
-                            Text("大V观点", style: new TextStyle(
-                                color: const Color(0xff222222),
-                                fontSize: 18.0
-                            ),)
-                           ],
-                       ),
-                   ),
-               new Expanded(child: ListView.builder(itemCount: 100,
-                 itemBuilder: (context, index) {
-                   return ListTile(leading: new Icon(Icons.message),
-                       title: Text("第$index条"));
-                 },),)
+              GestureDetector(
+                onTap: () {
+                  _onTabClick(0);
+                },
+                child:  Text("推荐", style: new TextStyle(
+                    color: const Color(0xff3072f6),
+                    fontSize: 18.0,
+                    decoration: TextDecoration.underline,
+                    decorationStyle: TextDecorationStyle.solid
+                )),
+              )
+              ,
+              SizedBox(width: 16.0,),
+              GestureDetector(
+                  onTap: () {
+                    _onTabClick(1);
+                  },
+                  child:  Text("北京", style: new TextStyle(
+                      color: const Color(0xff222222),
+                      fontSize: 18.0
+                  ),)),
+              SizedBox(width: 16.0,),
+              GestureDetector(
+                  onTap: () {
+                    _onTabClick(2);
+                  },
+                  child:
+                  Text("行情", style: new TextStyle(
+                      color: const Color(0xff222222),
+                      fontSize: 18.0
+                  ),)),
+              SizedBox(width: 16.0,),
+              Text("大V观点", style: new TextStyle(
+                  color: const Color(0xff222222),
+                  fontSize: 18.0
+              ),)
             ],
-                );
-        },
-        itemCount: 2,
-      ),
+          ),
+        ),
+
+        Expanded(child: PageView.builder(
+            itemCount: 4,
+            onPageChanged: _pageChange, controller: _pageController,
+            itemBuilder: (context, index) {
+                return Container(height: 800,
+                  child: ListView(children: <Widget>[
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                    ListTile(title: Text("dddd"),),
+                    ListTile(title: Text("1111"),),
+                    ListTile(title: Text("2222"),),
+                    ListTile(title: Text("3333"),),
+                    ListTile(title: Text("444"),),
+                  ],),);
+            }
+                 ))
+      ],)
 
     );
   }
