@@ -45,7 +45,20 @@ class _HomePageWidgetState extends State<HomePageWidget> with WidgetsBindingObse
     WidgetsBinding.instance.addObserver(this);
   }
 
-  void _onPressed() {
+  void _onTabClick(int index) {
+    print("点击了$index");
+
+    showDialog(context: context,
+        builder: (_) =>  AlertDialog(title: Text("提示"),
+            content: Text("点击了$index"),
+            actions: <Widget>[
+              FlatButton(child: Text('确定'),
+               onPressed: () {
+                print("点击了确定");
+                Navigator.of(context).pop();
+                _pageChange(index);
+               },)
+            ],));
   }
 
   @override
@@ -54,36 +67,74 @@ class _HomePageWidgetState extends State<HomePageWidget> with WidgetsBindingObse
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return new Scaffold(
-      appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: new Text("测试ViewPager"),
-      ),
-      body: new PageView.builder(
+      appBar: PreferredSize(
+          child: AppBar(
+
+          ),
+          preferredSize: Size(0, 0)),
+      body: PageView.builder(
         onPageChanged: _pageChange,
         controller: _pageController,
         itemBuilder: (BuildContext context, int index) {
-          return new Text("我是第$index页");
+          return new Column(mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              new SizedBox(height: 50,
+                   child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                _onTabClick(0);
+                              },
+                              child:  Text("推荐", style: new TextStyle(
+                                  color: const Color(0xff3072f6),
+                                  fontSize: 18.0,
+                                  decoration: TextDecoration.underline,
+                                  decorationStyle: TextDecorationStyle.solid
+                              )),
+                            )
+                           ,
+                            SizedBox(width: 16.0,),
+                            GestureDetector(
+                              onTap: () {
+                              _onTabClick(1);
+                              },
+                              child:  Text("北京", style: new TextStyle(
+                              color: const Color(0xff222222),
+                              fontSize: 18.0
+                            ),)),
+                            SizedBox(width: 16.0,),
+                            GestureDetector(
+                                onTap: () {
+                                _onTabClick(2);
+                              },
+                                child:
+                                Text("行情", style: new TextStyle(
+                                    color: const Color(0xff222222),
+                                    fontSize: 18.0
+                             ),)),
+                            SizedBox(width: 16.0,),
+                            Text("大V观点", style: new TextStyle(
+                                color: const Color(0xff222222),
+                                fontSize: 18.0
+                            ),)
+                           ],
+                       ),
+                   ),
+               new Expanded(child: ListView.builder(itemCount: 100,
+                 itemBuilder: (context, index) {
+                   return ListTile(leading: new Icon(Icons.message),
+                       title: Text("第$index条"));
+                 },),)
+            ],
+                );
         },
-        itemCount: 3,
+        itemCount: 2,
       ),
-      bottomNavigationBar: new BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: new Icon(Icons.category), title: new Text("首页"),
-        ),
-        BottomNavigationBarItem(
-          icon: new Icon(Icons.message), title: new Text("我的")
-        )],
-        currentIndex: _currentPageIndex,
-        onTap: _onTap),
+
     );
   }
 
-  void _onTap(int index) {
-    _pageController.animateToPage(index,
-        duration: const Duration(microseconds: 300),
-        curve: Curves.ease);
-  }
+
   void _pageChange(int index) {
     print("pageChange index: $index");
 
