@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'homepagewidget.dart';
+import 'utils/httputils.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    testGetHttp();
     Navigator.push(context, new MaterialPageRoute(builder: (context) =>
         new HomePageWidget(title: "我是首页",)
     ));

@@ -11,9 +11,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_feed/main.dart';
 import 'package:flutter_feed/model/recommand.dart';
 import 'dart:convert';
+import 'package:flutter_feed/utils/httputils.dart';
 
 void main() {
   group('jsonparse test', () {
+    testGetHttp();
+
       String mockdata = ''' {
   "id": "105172",
   "beike_name": "\u641c\u72d0\u7126\u70b9",
