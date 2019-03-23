@@ -128,8 +128,8 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
                   indicatorPadding: EdgeInsets.only(left: 8, right: 8),
                   labelPadding: EdgeInsets.only(left: 8, right: 8),
                   tabs: getTabs(),
-                ),toolbarOpacity: 1.0,),
-                preferredSize: Size.fromHeight(100)),
+                ),toolbarOpacity: 0.0,),
+                preferredSize: Size.fromHeight(50)),
             body: TabBarView(children: getTabs().map((Tab tab){
               return ListView(children: <Widget>[
                 RightImageWidget(),

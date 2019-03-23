@@ -428,8 +428,8 @@ class FeedHttpUtils {
 
       var map = json.decode(advise);
       var info = BasicResult.fromJson(map);
-      if (info != null && info.data != null && info.data is List) {
-        var tmp = info.data as List;
+      if (info != null && info.data != null && info.data["list"] is List) {
+        var tmp = info.data['list'] as List;
         list.addAll(tmp);
       }
     } catch (e) {
