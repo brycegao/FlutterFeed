@@ -3,7 +3,6 @@
 **/
 
 import 'package:flutter/material.dart';
-
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key, this.title}) : super(key: key);
 

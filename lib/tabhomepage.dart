@@ -5,6 +5,12 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_feed/utils/httputils.dart';
+import 'package:flutter_feed/model/channelinfo.dart';
+import 'package:flutter_feed/customwidget/threeimagewidget.dart';
+import 'package:flutter_feed/customwidget/rightimageItemwidget.dart';
+
+
 class TabViewHomePage extends StatefulWidget {
   TabViewHomePage({Key key, this.title}) : super(key: key);
 
@@ -25,16 +31,33 @@ class TabViewHomePage extends StatefulWidget {
 
 class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingObserver {
   AppLifecycleState _lastLifecycleState;
+  var _listChannels = List();  //频道信息
+  var _mapContent = Map<int, dynamic>();  //存储内容区域的数据
 
-  ///todo 先用静态数据
-  final List<Tab> myTabs = <Tab> [
-    Tab(text: '推荐',),
-    Tab(text: '北京'),
-    Tab(text: '行情',),
-    Tab(text: '大V观点',)
-  ];
+  List<Tab> getTabs() {
+    List<Tab> list = List();
 
-  TabController _controller;
+    if (_listChannels == null || _listChannels.length == 0) {
+      list.add(Tab(text: "推荐",));
+      list.add(Tab(text: "热门",));
+      list.add(Tab(text: "大v",));
+      list.add(Tab(text: "新闻",));
+    } else {
+      for (int i = 0; i < _listChannels.length; i++) {
+
+          var channel = ChannelInfo.fromJson(_listChannels[i]);
+          Tab tab = Tab(text: channel.name,);
+          list.add(tab);
+
+      }
+    }
+
+    if (list.length == 0) {
+      list.add(Tab(text: "推荐",));
+
+    }
+    return list;
+  }
 
   @override
   void dispose() {
@@ -52,8 +75,39 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _controller = TabController(length: myTabs.length,
-        vsync: ScrollableState());
+    getCurrentPageData();
+  }
+
+
+  //获取渠道列表
+  void getCurrentPageData() async {
+    var list = await FeedHttpUtils.getInstance().getFeed();
+    //刷新 频道
+    setState(() {
+      if (list != null) {
+        _listChannels.addAll(list);
+      }
+    });
+
+    //刷新内容
+    if (list != null && list.length > 0) {
+      for (int i = 0; i < list.length; i++) {
+        var channel = ChannelInfo.fromJson(list[i]);
+        refreshPageContent(channel.key);
+      }
+    }
+
+  }
+
+  void refreshPageContent(String channel) async {
+    var list = await FeedHttpUtils.getInstance().getAdviseData(int.parse(channel));
+
+    //刷新内容区域
+    setState(() {
+      if (list != null) {
+        _mapContent[int.parse(channel)] = list;
+      }
+    });
   }
 
   void _onPressed() {
@@ -61,7 +115,7 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: myTabs.length,
+    return DefaultTabController(length: getTabs().length,
           child: Scaffold(
             appBar:PreferredSize(
                 child: AppBar(backgroundColor: Colors.white, bottom: TabBar(
@@ -73,11 +127,26 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
                   labelStyle: TextStyle(fontSize: 16),
                   indicatorPadding: EdgeInsets.only(left: 8, right: 8),
                   labelPadding: EdgeInsets.only(left: 8, right: 8),
-                  tabs: myTabs,
-                ),toolbarOpacity: 0.0,),
-                preferredSize: Size.fromHeight(50)),
-            body: TabBarView(children: myTabs.map((Tab tab){
-              return Center(child: Text(tab.text),);
+                  tabs: getTabs(),
+                ),toolbarOpacity: 1.0,),
+                preferredSize: Size.fromHeight(100)),
+            body: TabBarView(children: getTabs().map((Tab tab){
+              return ListView(children: <Widget>[
+                RightImageWidget(),
+                ThreeImageWidget(),
+                RightImageWidget(),
+                ThreeImageWidget(),
+                RightImageWidget(),
+                ThreeImageWidget(),
+                RightImageWidget(),
+                ThreeImageWidget(),
+                RightImageWidget(),
+                ThreeImageWidget(),
+                RightImageWidget(),
+                ThreeImageWidget(),
+
+                ListTile(title: Text("444"),),
+              ],);
             }).toList(),),
           ));
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homepagewidget.dart';
 import 'utils/httputils.dart';
+import 'tabhomepage.dart';
 
 void main() => runApp(MyApp());
 
@@ -49,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    FeedHttpUtils.getInstance().testFeed();
-//    testGetHttp();
-//    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
+    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
 //        new HomePageWidget(title: "我是首页",)
-//    ));
+        new TabViewHomePage(title: "我是首页",)
+
+    ));
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
