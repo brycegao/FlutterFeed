@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 ///
 /// 实现tabbarview式首页
 /// 
@@ -9,7 +10,8 @@ import 'package:flutter_feed/utils/httputils.dart';
 import 'package:flutter_feed/model/channelinfo.dart';
 import 'package:flutter_feed/customwidget/threeimagewidget.dart';
 import 'package:flutter_feed/customwidget/rightimageItemwidget.dart';
-
+import 'package:flutter_refresh/flutter_refresh.dart';
+import 'package:flutter_feed/model/recommand.dart';
 
 class TabViewHomePage extends StatefulWidget {
   TabViewHomePage({Key key, this.title}) : super(key: key);
@@ -29,10 +31,12 @@ class TabViewHomePage extends StatefulWidget {
   _TabViewHomePageState createState() => new _TabViewHomePageState();
 }
 
-class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingObserver {
+class _TabViewHomePageState extends State<TabViewHomePage>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   AppLifecycleState _lastLifecycleState;
   var _listChannels = List();  //频道信息
   var _mapContent = Map<int, dynamic>();  //存储内容区域的数据
+  TabController _tabController;
 
   List<Tab> getTabs() {
     List<Tab> list = List();
@@ -44,11 +48,9 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
       list.add(Tab(text: "新闻",));
     } else {
       for (int i = 0; i < _listChannels.length; i++) {
-
           var channel = ChannelInfo.fromJson(_listChannels[i]);
           Tab tab = Tab(text: channel.name,);
           list.add(tab);
-
       }
     }
 
@@ -76,17 +78,33 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
     WidgetsBinding.instance.addObserver(this);
 
     getCurrentPageData();
+    
+    _tabController = TabController(length: 4, vsync: this);
   }
 
+  //根据tab名称判断是第几个标签页
+  int _getIndexByName(String name) {
+    int index = 0;
+    for (int i = 0; i < _listChannels.length; i++) {
+      ChannelInfo channel = ChannelInfo.fromJson(_listChannels[i]);
+      if (channel.name.compareTo(name) == 0) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  }
 
   //获取渠道列表
   void getCurrentPageData() async {
     var list = await FeedHttpUtils.getInstance().getFeed();
+
     //刷新 频道
     setState(() {
       if (list != null) {
         _listChannels.addAll(list);
       }
+
     });
 
     //刷新内容
@@ -110,7 +128,81 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
     });
   }
 
-  void _onPressed() {
+  ///根据下标返回对应的item widget
+  Widget _getItemWidgetByIndex(int index) {
+    int currentPage = _tabController.index;
+    List listData = _mapContent[currentPage];
+    if (listData != null && index < listData.length) {
+      Recommand data = Recommand.fromJson(listData[index]);
+
+      //根据类型生成对应的控件widget
+      if (data.type == 1) {
+        return ThreeImageWidget(currentData: data,);
+      } else {
+        return RightImageWidget(currentData: data,);
+      }
+    }
+    return ListTile(title: Text('dddd'),);
+  }
+
+  ///获取当前页面内容
+  Widget _getCurrentPageData(int index) {
+    var current = _mapContent[index];
+    List dataItems;
+    if (current != null && current is List) {
+      dataItems = current as List;
+    }
+
+    Widget childFreWi;
+    if (dataItems != null && dataItems.length != 0) {
+      childFreWi = new Container(
+        padding: EdgeInsets.only(left: 24, right: 24, ),
+        child: new Refresh(
+          onFooterRefresh: onFooterRefresh,
+          onHeaderRefresh: onHeaderRefresh,
+          childBuilder: (BuildContext context,
+              {ScrollController controller, ScrollPhysics physics}) {
+            return new Container(
+                child: new ListView.builder(
+                  physics: physics,
+                  controller: controller,
+                  itemCount: dataItems.length,
+                  itemBuilder: (context, item) {
+                    return _getItemWidgetByIndex(item);
+                  },
+                ));
+          },
+        ),
+      );
+    } else {
+      childFreWi = new Stack(
+        children: <Widget>[
+          new Padding(
+            padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 35.0),
+            child: new Center( child: CupertinoActivityIndicator(radius: 15, ), ),
+          ),
+          new Padding(
+            padding: new EdgeInsets.fromLTRB(0.0, 35.0, 0.0, 0.0),
+            child: new Center( child: new Text('正在加载中...'), ),
+          ),
+        ],
+      );
+    }
+    return childFreWi;
+  }
+
+  // 下拉刷新
+  Future<Null> onHeaderRefresh() {
+    return new Future.delayed(new Duration(seconds: 2), () {
+
+    });
+  }
+
+  // 加载刷新
+  Future<Null> onFooterRefresh() async {
+    return new Future.delayed(new Duration(seconds: 2), () {
+
+    });
   }
 
   @override
@@ -130,23 +222,10 @@ class _TabViewHomePageState extends State<TabViewHomePage> with WidgetsBindingOb
                   tabs: getTabs(),
                 ),toolbarOpacity: 0.0,),
                 preferredSize: Size.fromHeight(50)),
-            body: TabBarView(children: getTabs().map((Tab tab){
-              return ListView(children: <Widget>[
-                RightImageWidget(),
-                ThreeImageWidget(),
-                RightImageWidget(),
-                ThreeImageWidget(),
-                RightImageWidget(),
-                ThreeImageWidget(),
-                RightImageWidget(),
-                ThreeImageWidget(),
-                RightImageWidget(),
-                ThreeImageWidget(),
-                RightImageWidget(),
-                ThreeImageWidget(),
-
-                ListTile(title: Text("444"),),
-              ],);
+            body: TabBarView(
+                   controller: _tabController,
+                   children: getTabs().map((Tab tab){
+              return _getCurrentPageData(_getIndexByName(tab.text));
             }).toList(),),
           ));
   }

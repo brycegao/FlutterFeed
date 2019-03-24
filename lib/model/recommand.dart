@@ -28,7 +28,7 @@ class Recommand {
   int    type;
   int recom_type;
   String url;
-  int  channel;
+  String  channel;
   String beike_grade;
   String content_sub;
   String v_txt;

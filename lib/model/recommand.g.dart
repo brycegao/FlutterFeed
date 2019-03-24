@@ -19,7 +19,7 @@ Recommand _$RecommandFromJson(Map<String, dynamic> json) {
       json['type'] as int,
       json['recom_type'] as int,
       json['url'] as String,
-      json['channel'] as int,
+      json['channel'] as String,
       json['beike_grade'] as String,
       json['content_sub'] as String,
       json['v_txt'] as String,

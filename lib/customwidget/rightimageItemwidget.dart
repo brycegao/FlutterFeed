@@ -4,8 +4,12 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:flutter_feed/model/recommand.dart';
 
 class RightImageWidget extends StatelessWidget {
+  Recommand currentData;
+  RightImageWidget({Key key, this.currentData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -14,26 +18,34 @@ class RightImageWidget extends StatelessWidget {
         Scaffold.of(context).showSnackBar(snackBar);
       },
       child: Container(
-        padding: EdgeInsets.only(left: 24, right: 20, top: 16, bottom: 16),
+        padding: EdgeInsets.only(top: 16, bottom: 16),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: Divider.createBorderSide(context, color: Color(0xff999999)),
+          ),
+        ),
         child: Row(
           children: <Widget>[
             Expanded(child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('购房者心里可以踏实了？这四大因素或是决定未来房产业大局的关键',
-                   style: TextStyle(fontSize: 17, color: Color(0xff222222)), maxLines: 2,),
+                Text(currentData.title,
+                  style: TextStyle(fontSize: 17, color: Color(0xff222222)),
+                  maxLines: 2,),
                 SizedBox(height: 20,),
                 Row(children: <Widget>[
-                  Text('贝壳研究员 1小时前 热度 685', style: TextStyle(fontSize: 12,
-                     color: Color(0xff999999)),)
-                ],)
+                  Text(currentData.beike_name, style: TextStyle(fontSize: 12,
+                      color: Color(0xff999999)),)
+                ],),
               ],
             ),),
             SizedBox(width: 12,),
-            Image.asset('assets/image/luck_draw_pop_bg.png', width: 105, height: 80,)
+            Image.network(currentData.beike_avatar, width: 105, height: 80,),
           ],
         ),
-      ),
+
+      )
+
     );
   }
 }
