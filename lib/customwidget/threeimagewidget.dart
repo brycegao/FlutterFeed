@@ -1,5 +1,5 @@
 ///3个图片的widget
-
+///Image占位图 https://flutterchina.club/cookbook/images/fading-in-images/
 import 'package:flutter/material.dart';
 import 'package:flutter_feed/model/recommand.dart';
 
