@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 ///
 /// 实现tabbarview式首页
-/// 
+///
 /// 缺陷是有导航栏
 
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_feed/customwidget/threeimagewidget.dart';
 import 'package:flutter_feed/customwidget/rightimageItemwidget.dart';
 import 'package:flutter_refresh/flutter_refresh.dart';
 import 'package:flutter_feed/model/recommand.dart';
+import 'package:flutter_feed/customwidget/contentWidget.dart';
 
 class TabViewHomePage extends StatefulWidget {
   TabViewHomePage({Key key, this.title}) : super(key: key);
@@ -33,7 +34,6 @@ class TabViewHomePage extends StatefulWidget {
 
 class _TabViewHomePageState extends State<TabViewHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  AppLifecycleState _lastLifecycleState;
   var _listChannels = List();  //频道信息
   var _mapContent = Map<int, dynamic>();  //存储内容区域的数据
   TabController _tabController;
@@ -65,20 +65,17 @@ class _TabViewHomePageState extends State<TabViewHomePage>
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    _lastLifecycleState = state;
+    _tabController.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    print("-----------initState--------");
     WidgetsBinding.instance.addObserver(this);
 
     getCurrentPageData();
-    
+
     _tabController = TabController(length: 4, vsync: this);
   }
 
@@ -128,23 +125,6 @@ class _TabViewHomePageState extends State<TabViewHomePage>
     });
   }
 
-  ///根据下标返回对应的item widget
-  Widget _getItemWidgetByIndex(int index) {
-    int currentPage = _tabController.index;
-    List listData = _mapContent[currentPage];
-    if (listData != null && index < listData.length) {
-      Recommand data = Recommand.fromJson(listData[index]);
-
-      //根据类型生成对应的控件widget
-      if (data.type == 1) {
-        return ThreeImageWidget(currentData: data,);
-      } else {
-        return RightImageWidget(currentData: data,);
-      }
-    }
-    return ListTile(title: Text('dddd'),);
-  }
-
   ///获取当前页面内容
   Widget _getCurrentPageData(int index) {
     var current = _mapContent[index];
@@ -155,25 +135,7 @@ class _TabViewHomePageState extends State<TabViewHomePage>
 
     Widget childFreWi;
     if (dataItems != null && dataItems.length != 0) {
-      childFreWi = new Container(
-        padding: EdgeInsets.only(left: 24, right: 24, ),
-        child: new Refresh(
-          onFooterRefresh: onFooterRefresh,
-          onHeaderRefresh: onHeaderRefresh,
-          childBuilder: (BuildContext context,
-              {ScrollController controller, ScrollPhysics physics}) {
-            return new Container(
-                child: new ListView.builder(
-                  physics: physics,
-                  controller: controller,
-                  itemCount: dataItems.length,
-                  itemBuilder: (context, item) {
-                    return _getItemWidgetByIndex(item);
-                  },
-                ));
-          },
-        ),
-      );
+      childFreWi = ContentWidget(dataItems: dataItems,);
     } else {
       childFreWi = new Stack(
         children: <Widget>[
@@ -189,20 +151,6 @@ class _TabViewHomePageState extends State<TabViewHomePage>
       );
     }
     return childFreWi;
-  }
-
-  // 下拉刷新
-  Future<Null> onHeaderRefresh() {
-    return new Future.delayed(new Duration(seconds: 2), () {
-
-    });
-  }
-
-  // 加载刷新
-  Future<Null> onFooterRefresh() async {
-    return new Future.delayed(new Duration(seconds: 2), () {
-
-    });
   }
 
   @override
@@ -223,7 +171,7 @@ class _TabViewHomePageState extends State<TabViewHomePage>
                 ),toolbarOpacity: 0.0,),
                 preferredSize: Size.fromHeight(50)),
             body: TabBarView(
-                   controller: _tabController,
+                   //controller: _tabController,
                    children: getTabs().map((Tab tab){
               return _getCurrentPageData(_getIndexByName(tab.text));
             }).toList(),),
