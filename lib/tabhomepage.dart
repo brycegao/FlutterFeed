@@ -12,7 +12,7 @@ import 'package:flutter_feed/customwidget/threeimagewidget.dart';
 import 'package:flutter_feed/customwidget/rightimageItemwidget.dart';
 import 'package:flutter_refresh/flutter_refresh.dart';
 import 'package:flutter_feed/model/recommand.dart';
-import 'package:flutter_feed/customwidget/contentWidget.dart';
+import 'package:flutter_feed/customwidget/contentwidget.dart';
 
 class TabViewHomePage extends StatefulWidget {
   TabViewHomePage({Key key, this.title}) : super(key: key);

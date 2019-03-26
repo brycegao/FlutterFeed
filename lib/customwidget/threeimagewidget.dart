@@ -10,7 +10,14 @@ class ThreeImageWidget extends StatelessWidget {
   List<Widget> _getPicWidget() {
     List<Widget> list = List();
     for (int i = 0; i < currentData.pic.length; i++) {
-      list.add(Image.network(currentData.pic[i], width: 105, height: 80,));
+
+      list.add(Expanded(
+        child: Image.network(currentData.pic[i], height: 80,),
+      ));
+
+      if (i != currentData.pic.length - 1) {
+        list.add(SizedBox(width: 6, height: 80,));
+      }
     }
     return list;
   }

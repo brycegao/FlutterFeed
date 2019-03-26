@@ -82,6 +82,7 @@ class _ContentWidgetState extends State<ContentWidget> with AutomaticKeepAliveCl
         return RightImageWidget(currentData: data,);
       }
     }
+
     return ListTile(title: Text('dddd'),);
   }
 
