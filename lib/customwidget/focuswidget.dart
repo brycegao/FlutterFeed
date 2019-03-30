@@ -66,7 +66,7 @@ class _FocusWidgetState extends State<FocusWidget>  {
         color: _focus? Colors.blue:Colors.white,
         height: 50,
         alignment: Alignment.center,
-        child: Text('点我一下试试'),
+        child: Text('点我一下试试，我有点击态'),
       ),
     );
   }

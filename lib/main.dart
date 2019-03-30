@@ -3,6 +3,7 @@ import 'homepagewidget.dart';
 import 'utils/httputils.dart';
 import 'tabhomepage.dart';
 import 'customwidget/focuswidget.dart';
+import 'customwidget/offstagewidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -81,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Divider(),
         GestureDetector(onTap: _clickStateBtn,
             child: FocusWidget()),
-        Divider()
+        Divider(),
+        OffstageWidget()
       ],)
 
     );
