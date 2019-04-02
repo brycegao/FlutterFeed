@@ -64,9 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ReturnDataWidget(title: "widget传值",)
     ));
 
-    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
-       DialogWidget(title: ret)
-    ));
+//    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
+//       DialogWidget(title: ret)
+//    ));
+    //弹对话框
+    showDialog<Null>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(title: Text('提示'), content: Text(ret),
+         actions: <Widget>[FlatButton(child: Text('确定'),
+               onPressed: (){ Navigator.of(context).pop(); },)],);
+      }
+    );
   }
 
   @override
@@ -96,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         GestureDetector(onTap: _clickNextWidet,
           child: Container(height: 50,
             alignment: Alignment.center,
-            child: Text('2个widget传值', style: TextStyle(fontSize: 18),)))
+            child: Text('2个widget传值，弹对话框展示结果', style: TextStyle(fontSize: 18),)))
       ],)
 
     );
