@@ -4,6 +4,8 @@ import 'utils/httputils.dart';
 import 'tabhomepage.dart';
 import 'customwidget/focuswidget.dart';
 import 'customwidget/offstagewidget.dart';
+import 'transferdata/returndata.dart';
+import 'dialog/dialogwidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -56,8 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  void _clickStateBtn() {
+  void _clickNextWidet() async {
+    //进入二级widget并等待返回值
+    String ret = await Navigator.push(context, new MaterialPageRoute(builder: (context) =>
+        ReturnDataWidget(title: "widget传值",)
+    ));
 
+    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
+       DialogWidget(title: ret)
+    ));
   }
 
   @override
@@ -78,12 +87,16 @@ class _MyHomePageState extends State<MyHomePage> {
         GestureDetector(onTap: _handleHome,
           child: Container(height: 50,
             alignment: Alignment.center,
-            child: Text('点我进入首页'),)),
+            child: Text('点我进入看点'),)),
         Divider(),
-        GestureDetector(onTap: _clickStateBtn,
-            child: FocusWidget()),
+        FocusWidget(),
         Divider(),
-        OffstageWidget()
+        OffstageWidget(),
+        SizedBox(height: 3, ),
+        GestureDetector(onTap: _clickNextWidet,
+          child: Container(height: 50,
+            alignment: Alignment.center,
+            child: Text('2个widget传值', style: TextStyle(fontSize: 18),)))
       ],)
 
     );
