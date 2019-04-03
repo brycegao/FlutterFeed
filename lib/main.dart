@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog<Null>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(title: Text('提示'), content: Text(ret),
+        return AlertDialog(title: Text('提示'), content: Text(ret ?? "default value"),
          actions: <Widget>[FlatButton(child: Text('确定'),
                onPressed: (){ Navigator.of(context).pop(); },)],);
       }
