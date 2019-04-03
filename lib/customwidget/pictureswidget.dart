@@ -49,8 +49,9 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
   Widget _getThreeLine() {
     return Container(padding: EdgeInsets.all(10),
         child: Container(height: 100,
-           child: Center(child: Text('我是输入栏背景方框'),),
+           child: Center(child: Text('我是输入栏背景方框,圆角5dp'),),
            decoration: BoxDecoration(color: Colors.white,
+               borderRadius: BorderRadius.circular(5.0),
                border: Border.all(color: Colors.grey, width: 1.0)),),
       );
   }
