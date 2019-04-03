@@ -6,6 +6,7 @@ import 'customwidget/focuswidget.dart';
 import 'customwidget/offstagewidget.dart';
 import 'transferdata/returndata.dart';
 import 'dialog/dialogwidget.dart';
+import 'customwidget/pictureswidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -64,9 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ReturnDataWidget(title: "widget传值",)
     ));
 
-//    Navigator.push(context, new MaterialPageRoute(builder: (context) =>
-//       DialogWidget(title: ret)
-//    ));
     //弹对话框
     showDialog<Null>(
       context: context,
@@ -105,7 +103,17 @@ class _MyHomePageState extends State<MyHomePage> {
         GestureDetector(onTap: _clickNextWidet,
           child: Container(height: 50,
             alignment: Alignment.center,
-            child: Text('2个widget传值，弹对话框展示结果', style: TextStyle(fontSize: 18),)))
+            child: Text('2个widget传值，弹对话框展示结果', style: TextStyle(fontSize: 18),))),
+        SizedBox(height: 3,),
+        GestureDetector(onTap: () {
+            Navigator.push(context, new MaterialPageRoute(builder: (context) =>
+              new PictureWidget(title: "我是图片测试界面",)
+               ));
+           },
+          child: Container(height: 50,
+             alignment: Alignment.center,
+             child: Text('图片圆角'),),
+           )
       ],)
 
     );
