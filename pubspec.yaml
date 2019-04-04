@@ -46,7 +46,6 @@ flutter:
     - image/luck_draw_pop_bg.png
     - image/icon_beike_haofang.png
     - image/icon_hot.png
-    - image/bg_beike_index.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

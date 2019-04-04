@@ -40,7 +40,7 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
       child: Center(child: Text('假装我是ViewGroup，有个蓝色背景图', style: TextStyle(color: Colors.white),),),
       decoration: BoxDecoration(image:
           DecorationImage(
-              image: ExactAssetImage('assets/image/bg_beike_index.png',),
+              image: ExactAssetImage('assets/image/luck_draw_pop_bg.png',),
               fit: BoxFit.fill),
               ));
   }
@@ -56,6 +56,23 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
       );
   }
 
+  //圆形图
+  Widget _getFourLine() {
+    return Container(padding: EdgeInsets.all(10),
+      color: Colors.green,
+      alignment: Alignment.center,
+      child: Row(children: <Widget>[
+        SizedBox(width: 20,),
+        Text('圆形图片'),
+        SizedBox(width: 20,),
+        Container(height: 100, width: 100,
+          child:         ClipOval(child: Image.asset('assets/image/icon_beike_haofang.png'),),)
+
+      ],),);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -69,6 +86,8 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
         _getSecondLine(),
         Container(height: 10,),
         _getThreeLine(),
+        SizedBox(height: 10,),
+        _getFourLine(),
       ],)
     );
   }
