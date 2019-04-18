@@ -28,7 +28,7 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
         SizedBox(width: 20,),
         Text('预置资源原图'),
         SizedBox(width: 10,),
-        Image.asset('assets/image/icon_beike_haofang.png')
+        Image.asset('images/icon_beike_haofang.png')
       ],),
     );
   }
@@ -40,7 +40,7 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
       child: Center(child: Text('假装我是ViewGroup，有个蓝色背景图', style: TextStyle(color: Colors.white),),),
       decoration: BoxDecoration(image:
           DecorationImage(
-              image: ExactAssetImage('assets/image/luck_draw_pop_bg.png',),
+              image: ExactAssetImage('images/icon_beike_head_bg.png',),
               fit: BoxFit.fill),
               ));
   }
@@ -66,7 +66,7 @@ class _PictureWidgetState extends State<PictureWidget> with WidgetsBindingObserv
         Text('圆形图片'),
         SizedBox(width: 20,),
         Container(height: 100, width: 100,
-          child:         ClipOval(child: Image.asset('assets/image/icon_beike_haofang.png'),),)
+          child:         ClipOval(child: Image.asset('images/icon_beike_haofang.png'),),)
 
       ],),);
   }
